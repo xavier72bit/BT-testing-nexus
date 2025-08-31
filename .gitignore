@@ -1,4 +1,7 @@
-######################################################################
+# MacOS
+.DS_Store
+*/.DS_Store
+
 # Build Tools
 
 .gradle
@@ -8,8 +11,10 @@
 target/
 !.mvn/wrapper/maven-wrapper.jar
 
-######################################################################
 # IDE
+
+### vscode ###
+.vscode
 
 ### STS ###
 .apt_generated
@@ -33,7 +38,7 @@ dist/
 nbdist/
 .nb-gradle/
 
-######################################################################
+
 # Others
 *.log
 *.xml.versionsBackup
