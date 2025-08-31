@@ -18,3 +18,26 @@ BT-testing-nexus 是一个专为 [BlockTraveller项目](https://github.com/xavie
 前后端分离架构
 
 后端SpringBoot框架 + 前端Vue3框架
+
+# 从零搭建的过程
+
+后端：使用[spring initializr](https://start.spring.io/)快速开启一个项目，参数配置如下
+1. Project: Maven, Java
+2. 选择最新的SpringBoot稳定版本
+3. 编写Project MetaData元数据
+4. Dependencies
+    1. Spring Web
+    2. Spring Data JPA
+    3. MySQL Driver
+    4. Lombok
+
+
+# 数据库创建
+
+```SQL
+CREATE DATABASE bttn CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'bttn'@'localhost' IDENTIFIED BY 'bttn123';
+GRANT ALL PRIVILEGES ON bttn.* TO 'bttn'@'localhost';
+
+FLUSH PRIVILEGES;
+```
