@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: BlockTravellerTestingNexus
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/bttn
+    username: bttn
+    password: bttn123
+    driver-class-name: com.mysql.cj.jdbc.Driver
