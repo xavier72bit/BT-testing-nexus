@@ -1,7 +1,7 @@
 package dev.xavier72bit.bttn.controller;
 
 
-import dev.xavier72bit.bttn.entity.Node;
+import dev.xavier72bit.bttn.model.entity.Node;
 import dev.xavier72bit.bttn.repository.MinerRepository;
 import dev.xavier72bit.bttn.repository.NodeRepository;
 import dev.xavier72bit.bttn.repository.WalletRepository;

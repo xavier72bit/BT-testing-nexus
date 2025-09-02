@@ -1,4 +1,4 @@
-package dev.xavier72bit.bttn.entity;
+package dev.xavier72bit.bttn.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

@@ -1,6 +1,6 @@
 package dev.xavier72bit.bttn.controller;
 
-import dev.xavier72bit.bttn.entity.Config;
+import dev.xavier72bit.bttn.model.entity.Config;
 import dev.xavier72bit.bttn.repository.ConfigRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
