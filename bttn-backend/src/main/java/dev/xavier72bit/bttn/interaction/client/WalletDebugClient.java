@@ -24,7 +24,7 @@ public class WalletDebugClient {
         String url = fromWallet.getApiAddress();
 
         Map<String, Object> requestBody = Map.of(
-                "raddr", toWallet.getAddress(),
+                "raddr", toWallet.getPublicKey(),
                 "amount", amount
         );
 
