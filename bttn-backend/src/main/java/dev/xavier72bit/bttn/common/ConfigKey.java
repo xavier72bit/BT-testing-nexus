@@ -4,7 +4,8 @@ import lombok.Getter;
 
 public enum ConfigKey {
     TRANSACTION_GENERATION_RATE("transaction.generation.rate.ms", Long.class),
-    NODE_COUNT("node.count", Integer.class);
+    NODE_COUNT("node.count", Integer.class),
+    BLOCKCHAIN_SUMMARY_COLLECT_RATE("blockchain.summary.collect.rate.ms", Long.class);
 
     @Getter
     private final String keyName;
