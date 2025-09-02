@@ -16,16 +16,10 @@ public class Node {
     private Long id;
 
     @NotNull
-    @Column(name = "api_address")
+    @Column(name = "api_address", unique = true)
     private String apiAddress;
 
     @NotNull
     @Column(name = "is_online")
     private Boolean isOnline;
-
-    @OneToMany(mappedBy = "node", cascade = CascadeType.ALL)
-    private List<BlockChainSnapshot> blockSnapshotList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "node", cascade = CascadeType.ALL)
-    private List<TransactionPoolSnapshot> transactionPoolSnapshotList = new ArrayList<>();
 }

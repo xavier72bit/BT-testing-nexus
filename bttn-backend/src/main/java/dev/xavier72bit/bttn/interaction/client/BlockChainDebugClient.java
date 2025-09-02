@@ -16,7 +16,7 @@ public class BlockChainDebugClient {
     }
 
     public BlockChainSummary getBlockChainSummary(Node node) {
-        String url = node.getApiAddress() + "blockchain/summary";
+        String url = node.getApiAddress() + "/blockchain/summary";
         return restTemplate.getForObject(url, BlockChainSummary.class);
     }
 }

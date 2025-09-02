@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface WalletRepository extends JpaRepository<Wallet, Long> {}
+public interface WalletRepository extends JpaRepository<Wallet, Long> {
+    Wallet findByPublicKeyAndPrivateKey(String publicKey, String privateKey);
+}

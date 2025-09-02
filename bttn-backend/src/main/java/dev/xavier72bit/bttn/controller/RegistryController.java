@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+// TODO: Controller应该返回统一的R
+
 @Slf4j
 @RestController
 @RequestMapping("/registry")
@@ -27,11 +29,30 @@ public class RegistryController {
 
     @PostMapping("/node")
     public Node registryNode(@RequestBody Node node) {
+        /*
+          TODO: 这些逻辑其实是upsert，存在update，不存在则insert
+          现在，就需要引入service层来做这些事了
+          另外，要严格在数据库层面加上唯一约束
+         */
+        Node existedNode = nodeRepository.findByApiAddress(node.getApiAddress());
+        if (existedNode != null) {
+            existedNode.setIsOnline(true);
+            return nodeRepository.save(existedNode);
+        }
+
+        log.info("node {} 注册", node.getApiAddress());
+        node.setIsOnline(true);
         return nodeRepository.save(node);
     }
 
     @PostMapping("/wallet")
     public Wallet registryWallet(@RequestBody Wallet wallet) {
+        Wallet existedWallet = walletRepository.findByPublicKeyAndPrivateKey(wallet.getPublicKey(), wallet.getPrivateKey());
+        if (existedWallet != null) {
+            existedWallet.setIsOnline(true);
+            return walletRepository.save(existedWallet);
+        }
+
         log.info("wallet {} 注册", wallet.getApiAddress());
         wallet.setIsOnline(true);
         return walletRepository.save(wallet);
@@ -39,6 +60,13 @@ public class RegistryController {
 
     @PostMapping("/miner")
     public Miner registryMiner(@RequestBody Miner miner) {
+        Miner existedMiner = minerRepository.findByApiAddress(miner.getApiAddress());
+        if (existedMiner != null) {
+            existedMiner.setPublicKey(miner.getPublicKey());  // 对于存在的Miner, 是需要更新它的publicKey的
+            existedMiner.setIsOnline(true);
+            return minerRepository.save(existedMiner);
+        }
+
         log.info("miner {} 注册", miner.getApiAddress());
         miner.setIsOnline(true);
         return minerRepository.save(miner);
