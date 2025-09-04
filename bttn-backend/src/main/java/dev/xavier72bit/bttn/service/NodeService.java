@@ -16,11 +16,11 @@ public class NodeService {
      */
     @Transactional
     public Node upsertNode(Node node) {
-        Node exsitedNode = nodeRepository.findByApiAddress(node.getApiAddress());
+        Node existedNode = nodeRepository.findByApiAddress(node.getApiAddress());
 
-        if (exsitedNode != null) {
-            exsitedNode.setIsOnline(true);
-            return nodeRepository.save(exsitedNode);
+        if (existedNode != null) {
+            existedNode.setIsOnline(true);
+            return nodeRepository.save(existedNode);
         } else {
             node.setIsOnline(true);
             return nodeRepository.save(node);

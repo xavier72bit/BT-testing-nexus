@@ -1,4 +1,4 @@
-package dev.xavier72bit.bttn.common;
+package dev.xavier72bit.bttn.constant;
 
 import lombok.Getter;
 

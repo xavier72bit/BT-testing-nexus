@@ -4,9 +4,10 @@ package dev.xavier72bit.bttn.controller;
 import dev.xavier72bit.bttn.model.entity.Miner;
 import dev.xavier72bit.bttn.model.entity.Node;
 import dev.xavier72bit.bttn.model.entity.Wallet;
-import dev.xavier72bit.bttn.repository.MinerRepository;
-import dev.xavier72bit.bttn.repository.WalletRepository;
+import dev.xavier72bit.bttn.model.server.R;
+import dev.xavier72bit.bttn.service.MinerService;
 import dev.xavier72bit.bttn.service.NodeService;
+import dev.xavier72bit.bttn.service.WalletService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,41 +22,39 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/registry")
 public class RegistryController {
     @Autowired
-    private MinerRepository minerRepository;
+    private MinerService minerService;
     @Autowired
     private NodeService nodeService;
     @Autowired
-    private WalletRepository walletRepository;
+    private WalletService walletService;
 
     @PostMapping("/node")
-    public Node registryNode(@RequestBody Node node) {
-        return nodeService.upsertNode(node);
+    public R<Node> registryNode(@RequestBody Node node) {
+        try {
+            Node result = nodeService.upsertNode(node);
+            return R.ok(result);
+        } catch (Exception e) {
+            return R.error("Node注册失败: {}" + e.getMessage());
+        }
     }
 
     @PostMapping("/wallet")
-    public Wallet registryWallet(@RequestBody Wallet wallet) {
-        Wallet existedWallet = walletRepository.findByPublicKeyAndPrivateKey(wallet.getPublicKey(), wallet.getPrivateKey());
-        if (existedWallet != null) {
-            existedWallet.setIsOnline(true);
-            return walletRepository.save(existedWallet);
+    public R<Wallet> registryWallet(@RequestBody Wallet wallet) {
+        try {
+            Wallet result = walletService.upsertWallet(wallet);
+            return R.ok(result);
+        } catch (Exception e) {
+            return R.error("Wallet注册失败" + e.getMessage());
         }
-
-        log.info("wallet {} 注册", wallet.getApiAddress());
-        wallet.setIsOnline(true);
-        return walletRepository.save(wallet);
     }
 
     @PostMapping("/miner")
-    public Miner registryMiner(@RequestBody Miner miner) {
-        Miner existedMiner = minerRepository.findByApiAddress(miner.getApiAddress());
-        if (existedMiner != null) {
-            existedMiner.setPublicKey(miner.getPublicKey());  // 对于存在的Miner, 是需要更新它的publicKey的
-            existedMiner.setIsOnline(true);
-            return minerRepository.save(existedMiner);
+    public R<Miner> registryMiner(@RequestBody Miner miner) {
+        try {
+            Miner result = minerService.upsertMiner(miner);
+            return R.ok(result);
+        } catch (Exception e) {
+            return R.error("Miner注册失败" + e.getMessage());
         }
-
-        log.info("miner {} 注册", miner.getApiAddress());
-        miner.setIsOnline(true);
-        return minerRepository.save(miner);
     }
 }
