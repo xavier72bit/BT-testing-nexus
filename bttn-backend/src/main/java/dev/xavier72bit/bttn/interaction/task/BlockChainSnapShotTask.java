@@ -1,7 +1,7 @@
-package dev.xavier72bit.bttn.interaction.collect;
+package dev.xavier72bit.bttn.interaction.task;
 
-import dev.xavier72bit.bttn.common.ConfigKey;
-import dev.xavier72bit.bttn.interaction.base.DynamicConfigScheduler;
+import dev.xavier72bit.bttn.annotation.WaitForRunners;
+import dev.xavier72bit.bttn.interaction.base.ScheduledTaskToRun;
 import dev.xavier72bit.bttn.interaction.client.BlockChainDebugClient;
 import dev.xavier72bit.bttn.model.entity.BlockChainSnapshot;
 import dev.xavier72bit.bttn.model.entity.Node;
@@ -19,10 +19,9 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
 @Slf4j
 @Component
-public class BlockChainSnapshotScheduler extends DynamicConfigScheduler {
+public class BlockChainSnapShotTask implements ScheduledTaskToRun {
 
     @Autowired
     private NodeRepository nodeRepository;
@@ -39,12 +38,8 @@ public class BlockChainSnapshotScheduler extends DynamicConfigScheduler {
     private final ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     @Override
-    protected String getConfigKey() {
-        return ConfigKey.BLOCKCHAIN_SUMMARY_COLLECT_RATE.getKeyName();
-    }
-
-    @Override
-    protected void executeTask() {
+    @WaitForRunners
+    public void execute() {
         log.info("开始执行BlockChain Summary Snapshot采集任务");
         List<Node> onlineNodes = nodeRepository.findByIsOnlineTrue();
 

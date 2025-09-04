@@ -25,9 +25,9 @@ public abstract class DynamicConfigScheduler {
     private final AtomicLong msInterval = new AtomicLong(10000);
 
     /**
-     *  子类实现，需要执行的具体任务
+     *  子类实现，需要执行的具体任务，让子类提供任务的实例
      */
-    protected abstract void executeTask();
+    protected abstract ScheduledTaskToRun getScheduledTaskToRun();
 
     /**
      * 子类实现，需要到数据库Config表里查询的key
@@ -44,7 +44,7 @@ public abstract class DynamicConfigScheduler {
 
     private void executeTaskAndRefreshInterval() {
         try {
-            executeTask();
+            getScheduledTaskToRun().execute();
         } catch (Exception e) {
             log.error("任务执行失败", e);
         } finally {

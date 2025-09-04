@@ -5,8 +5,8 @@ import dev.xavier72bit.bttn.model.entity.Miner;
 import dev.xavier72bit.bttn.model.entity.Node;
 import dev.xavier72bit.bttn.model.entity.Wallet;
 import dev.xavier72bit.bttn.repository.MinerRepository;
-import dev.xavier72bit.bttn.repository.NodeRepository;
 import dev.xavier72bit.bttn.repository.WalletRepository;
+import dev.xavier72bit.bttn.service.NodeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,26 +23,13 @@ public class RegistryController {
     @Autowired
     private MinerRepository minerRepository;
     @Autowired
-    private NodeRepository nodeRepository;
+    private NodeService nodeService;
     @Autowired
     private WalletRepository walletRepository;
 
     @PostMapping("/node")
     public Node registryNode(@RequestBody Node node) {
-        /*
-          TODO: 这些逻辑其实是upsert，存在update，不存在则insert
-          现在，就需要引入service层来做这些事了
-          另外，要严格在数据库层面加上唯一约束
-         */
-        Node existedNode = nodeRepository.findByApiAddress(node.getApiAddress());
-        if (existedNode != null) {
-            existedNode.setIsOnline(true);
-            return nodeRepository.save(existedNode);
-        }
-
-        log.info("node {} 注册", node.getApiAddress());
-        node.setIsOnline(true);
-        return nodeRepository.save(node);
+        return nodeService.upsertNode(node);
     }
 
     @PostMapping("/wallet")
