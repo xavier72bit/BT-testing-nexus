@@ -27,4 +27,8 @@ public class Wallet {
     @NotNull
     @Column(name = "is_online")
     private Boolean isOnline;
+
+    @NotNull
+    @Column(name = "balance")
+    private Long balance;
 }
