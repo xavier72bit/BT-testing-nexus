@@ -8,7 +8,6 @@ import dev.xavier72bit.bttn.model.entity.BlockChainSnapshot;
 import dev.xavier72bit.bttn.model.entity.Node;
 import dev.xavier72bit.bttn.model.entity.Version;
 import dev.xavier72bit.bttn.model.vo.BlockChainSummary;
-import dev.xavier72bit.bttn.repository.BlockChainSnapshotRepository;
 import dev.xavier72bit.bttn.repository.NodeRepository;
 import dev.xavier72bit.bttn.service.BlockChainSnapShotService;
 import lombok.extern.slf4j.Slf4j;

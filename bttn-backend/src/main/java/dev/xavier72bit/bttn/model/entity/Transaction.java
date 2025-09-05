@@ -9,7 +9,7 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name="bttn_transactions")
-public class Transactions extends WithVersionBase {
+public class Transaction extends WithVersionBase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,4 +27,8 @@ public class Transactions extends WithVersionBase {
     @NotNull
     @Column(name = "amount")
     private Long amount;
+
+    @NotNull
+    @Column(name = "is_valid")
+    private Boolean isValid;
 }

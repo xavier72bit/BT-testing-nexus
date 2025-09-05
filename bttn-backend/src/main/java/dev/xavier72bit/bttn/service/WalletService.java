@@ -4,6 +4,7 @@ import dev.xavier72bit.bttn.config.VersionManager;
 import dev.xavier72bit.bttn.model.entity.Version;
 import dev.xavier72bit.bttn.model.entity.Wallet;
 import dev.xavier72bit.bttn.repository.WalletRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,5 +31,15 @@ public class WalletService {
         wallet.setIsOnline(true);
         wallet.setVersion(version);
         return walletRepository.save(wallet);
+    }
+
+    public Wallet getRandomWalletByCurrentVersionOnline() {
+        Version version = versionManager.getCurrentVersion();
+        return walletRepository.findRandomWalletByVersionAndIsOnlineTrue(version, true);
+    }
+
+    public Wallet getRandomWalletByCurrentVersion() {
+        Version version = versionManager.getCurrentVersion();
+        return walletRepository.findRandomWalletByVersion(version);
     }
 }

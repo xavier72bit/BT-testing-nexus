@@ -1,5 +1,49 @@
 package dev.xavier72bit.bttn.interaction.task;
 
-public class CreateTransactionTask {
+import dev.xavier72bit.bttn.interaction.base.ScheduledTaskToRun;
+import dev.xavier72bit.bttn.model.entity.Transaction;
+import dev.xavier72bit.bttn.model.entity.Wallet;
+import dev.xavier72bit.bttn.service.TransactionService;
+import dev.xavier72bit.bttn.service.WalletService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+import java.util.Random;
+
+/**
+ * 创建区块链交易的任务
+ */
+
+@Component
+@Slf4j
+public class CreateTransactionTask implements ScheduledTaskToRun {
+    @Autowired
+    private WalletService walletService;
+
+    @Autowired
+    private TransactionService transactionService;
+
+    private final Random random = new Random();
+
+    @Override
+    public void execute() {
+        Long amount = random.nextLong(100) + 1;
+
+        Wallet sender = walletService.getRandomWalletByCurrentVersionOnline();
+        Wallet recipient = walletService.getRandomWalletByCurrentVersion();
+
+        if (sender == null || recipient == null) {
+            log.info("未获取到sender与recipient，跳过本次交易数据生成");
+            return;
+        }
+
+        Transaction generatedTransaction = new Transaction();
+        generatedTransaction.setSender(sender);
+        generatedTransaction.setRecipient(recipient);
+        generatedTransaction.setAmount(amount);
+
+        transactionService.create(generatedTransaction);
+    }
 }
