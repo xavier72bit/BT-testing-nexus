@@ -2,7 +2,6 @@ package dev.xavier72bit.bttn.interaction.scheduler;
 
 import dev.xavier72bit.bttn.constant.ConfigKey;
 import dev.xavier72bit.bttn.interaction.base.DynamicConfigScheduler;
-import dev.xavier72bit.bttn.interaction.base.ScheduledTaskToRun;
 import dev.xavier72bit.bttn.interaction.task.CreateTransactionTask;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

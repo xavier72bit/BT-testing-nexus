@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public record WalletDebugResponse(
         Data data,
         String message,
-        boolean success
+        Boolean success
 ) {
     public record Data(
             @JsonProperty("error_type")

@@ -1,5 +1,6 @@
 package dev.xavier72bit.bttn.interaction.task;
 
+import dev.xavier72bit.bttn.annotation.WaitForRunners;
 import dev.xavier72bit.bttn.interaction.base.ScheduledTaskToRun;
 import dev.xavier72bit.bttn.interaction.client.WalletDebugClient;
 import dev.xavier72bit.bttn.model.entity.Transaction;
@@ -33,6 +34,7 @@ public class CreateTransactionTask implements ScheduledTaskToRun {
     private final Random random = new Random();
 
     @Override
+    @WaitForRunners
     public void execute() {
         Long amount = random.nextLong(100) + 1;
 

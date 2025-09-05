@@ -20,4 +20,6 @@ public interface MinerRepository extends JpaRepository<Miner, Long> {
     int setAllMinerOffline();
 
     Miner findByApiAddressAndVersion(String string, Version version);
+
+    List<Miner> findByIsOnlineTrueAndVersion(Version version);
 }
