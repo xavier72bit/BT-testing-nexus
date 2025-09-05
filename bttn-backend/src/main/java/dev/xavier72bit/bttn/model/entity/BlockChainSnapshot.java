@@ -1,6 +1,7 @@
 package dev.xavier72bit.bttn.model.entity;
 
 
+import dev.xavier72bit.bttn.model.entity.base.WithVersionBase;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @Table(name = "bttn_blockchain_snapshot")
-public class BlockChainSnapshot {
+public class BlockChainSnapshot extends WithVersionBase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

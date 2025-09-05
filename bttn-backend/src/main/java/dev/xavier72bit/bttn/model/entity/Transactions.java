@@ -1,6 +1,7 @@
 package dev.xavier72bit.bttn.model.entity;
 
 
+import dev.xavier72bit.bttn.model.entity.base.WithVersionBase;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -8,7 +9,7 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name="bttn_transactions")
-public class Transactions {
+public class Transactions extends WithVersionBase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
