@@ -37,6 +37,11 @@ public class TransactionService {
             throw new ValidationException("创建交易必须完整填写发送人与接收人");
         }
 
+        if (Objects.equals(sender.getId(), recipient.getId())) {
+            log.info("发送方与接受方一致，跳过交易创建");
+            return;
+        }
+
         if (! Objects.equals(sender.getVersion().getId(), currentVersion.getId())
                 || ! Objects.equals(recipient.getVersion().getId(), currentVersion.getId())) {
             throw new ValidationException("钱包对象的版本错误");
@@ -51,6 +56,7 @@ public class TransactionService {
             transaction.setIsValid(false);
         } else {
             // 验证通过，处理发送方与交易方的余额
+            transaction.setIsValid(true);
             sender.setBalance(sender.getBalance() - amount);
             recipient.setBalance(recipient.getBalance() + amount);
             walletRepository.save(sender);
