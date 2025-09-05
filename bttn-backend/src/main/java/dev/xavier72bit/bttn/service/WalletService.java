@@ -1,5 +1,7 @@
 package dev.xavier72bit.bttn.service;
 
+import dev.xavier72bit.bttn.config.VersionManager;
+import dev.xavier72bit.bttn.model.entity.Version;
 import dev.xavier72bit.bttn.model.entity.Wallet;
 import dev.xavier72bit.bttn.repository.WalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,16 +12,23 @@ import org.springframework.transaction.annotation.Transactional;
 public class WalletService {
     @Autowired
     private WalletRepository walletRepository;
+    @Autowired
+    private VersionManager versionManager;
 
     @Transactional
     public Wallet upsertWallet(Wallet wallet) {
-        Wallet existedWallet = walletRepository.findByPublicKeyAndPrivateKey(wallet.getPublicKey(), wallet.getPrivateKey());
+        Version version = versionManager.getCurrentVersion();
+
+        Wallet existedWallet = walletRepository.findByPublicKeyAndPrivateKeyAndVersion(
+            wallet.getPublicKey(), wallet.getPrivateKey(), version
+        );
         if (existedWallet != null) {
             existedWallet.setIsOnline(true);
             return walletRepository.save(existedWallet);
         }
 
         wallet.setIsOnline(true);
+        wallet.setVersion(version);
         return walletRepository.save(wallet);
     }
 }

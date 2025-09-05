@@ -7,14 +7,16 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "bttn_nodes")
+@Table(name = "bttn_nodes", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"api_address", "version_id"})
+})
 public class Node extends WithVersionBase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    @Column(name = "api_address", unique = true)
+    @Column(name = "api_address")
     private String apiAddress;
 
     @NotNull

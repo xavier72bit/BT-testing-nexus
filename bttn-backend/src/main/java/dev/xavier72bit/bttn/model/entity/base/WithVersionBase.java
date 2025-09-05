@@ -12,7 +12,7 @@ import lombok.Setter;
 public class WithVersionBase {
     @Getter
     @Setter
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "version_id", nullable = false)
     private Version version;
 }

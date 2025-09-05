@@ -31,5 +31,5 @@ public class Wallet extends WithVersionBase {
 
     @NotNull
     @Column(name = "balance")
-    private Long balance;
+    private Long balance = 0L;
 }

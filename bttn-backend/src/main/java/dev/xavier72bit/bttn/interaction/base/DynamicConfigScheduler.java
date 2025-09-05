@@ -22,7 +22,7 @@ public abstract class DynamicConfigScheduler {
     @Autowired
     private ConfigRepository configRepository;
 
-    private final AtomicLong msInterval = new AtomicLong(10000);
+    private final AtomicLong msInterval = new AtomicLong(60000);
 
     /**
      *  子类实现，需要执行的具体任务，让子类提供任务的实例

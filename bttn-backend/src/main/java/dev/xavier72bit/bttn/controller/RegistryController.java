@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-// TODO: Controller应该返回统一的R
-
 @Slf4j
 @RestController
 @RequestMapping("/registry")

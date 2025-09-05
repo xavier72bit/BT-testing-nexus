@@ -19,7 +19,7 @@ public class TransactionPoolSnapshot extends WithVersionBase {
     @Column
     private Long ConfirmedTransactionAmount;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "node_id", nullable = false)
     private Node node;
 }

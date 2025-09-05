@@ -30,7 +30,7 @@ public class BlockChainSnapshot extends WithVersionBase {
     @Column
     private LocalDateTime snapshotTime;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "node_id", nullable = false)
     private Node node;
 }

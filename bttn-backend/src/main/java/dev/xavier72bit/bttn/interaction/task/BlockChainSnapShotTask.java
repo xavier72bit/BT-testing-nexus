@@ -1,13 +1,16 @@
 package dev.xavier72bit.bttn.interaction.task;
 
 import dev.xavier72bit.bttn.annotation.WaitForRunners;
+import dev.xavier72bit.bttn.config.VersionManager;
 import dev.xavier72bit.bttn.interaction.base.ScheduledTaskToRun;
 import dev.xavier72bit.bttn.interaction.client.BlockChainDebugClient;
 import dev.xavier72bit.bttn.model.entity.BlockChainSnapshot;
 import dev.xavier72bit.bttn.model.entity.Node;
+import dev.xavier72bit.bttn.model.entity.Version;
 import dev.xavier72bit.bttn.model.vo.BlockChainSummary;
 import dev.xavier72bit.bttn.repository.BlockChainSnapshotRepository;
 import dev.xavier72bit.bttn.repository.NodeRepository;
+import dev.xavier72bit.bttn.service.BlockChainSnapShotService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,7 +30,7 @@ public class BlockChainSnapShotTask implements ScheduledTaskToRun {
     private NodeRepository nodeRepository;
 
     @Autowired
-    private BlockChainSnapshotRepository blockChainSnapshotRepository;
+    private BlockChainSnapShotService blockChainSnapShotService;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -35,16 +38,20 @@ public class BlockChainSnapShotTask implements ScheduledTaskToRun {
     @Autowired
     private BlockChainDebugClient blockChainDebugClient;
 
+    @Autowired
+    private VersionManager versionManager;
+
     private final ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     @Override
     @WaitForRunners
     public void execute() {
         log.info("开始执行BlockChain Summary Snapshot采集任务");
-        List<Node> onlineNodes = nodeRepository.findByIsOnlineTrue();
+        Version version = versionManager.getCurrentVersion();
+        List<Node> onlineNodes = nodeRepository.findByIsOnlineTrueAndVersion(version);
 
         if (onlineNodes.isEmpty()) {
-            log.info("目前没有在线的Node，跳过执行");
+            log.info("目前没有在线的Node，跳过执行，查询版本ID: {}", version.getId());
             return;
         }
 
@@ -81,7 +88,7 @@ public class BlockChainSnapShotTask implements ScheduledTaskToRun {
             blockChainSnapshot.setSnapshotTime(LocalDateTime.now());
             blockChainSnapshot.setNode(node);
 
-            blockChainSnapshotRepository.save(blockChainSnapshot);
+            blockChainSnapShotService.create(blockChainSnapshot);
 
             log.info("节点 {} 保存快照成功", node.getApiAddress());
         }
