@@ -20,8 +20,8 @@ public class WalletDebugClient {
         this.restTemplate = restTemplate;
     }
 
-    public WalletDebugResponse generateTx(Wallet fromWallet, Wallet toWallet, Integer amount) {
-        String url = fromWallet.getApiAddress();
+    public WalletDebugResponse generateTx(Wallet fromWallet, Wallet toWallet, Long amount) {
+        String url = fromWallet.getApiAddress() + "/generate_tx";
 
         Map<String, Object> requestBody = Map.of(
                 "raddr", toWallet.getPublicKey(),

@@ -1,8 +1,10 @@
 package dev.xavier72bit.bttn.interaction.task;
 
 import dev.xavier72bit.bttn.interaction.base.ScheduledTaskToRun;
+import dev.xavier72bit.bttn.interaction.client.WalletDebugClient;
 import dev.xavier72bit.bttn.model.entity.Transaction;
 import dev.xavier72bit.bttn.model.entity.Wallet;
+import dev.xavier72bit.bttn.model.vo.WalletDebugResponse;
 import dev.xavier72bit.bttn.service.TransactionService;
 import dev.xavier72bit.bttn.service.WalletService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +27,9 @@ public class CreateTransactionTask implements ScheduledTaskToRun {
     @Autowired
     private TransactionService transactionService;
 
+    @Autowired
+    private WalletDebugClient walletDebugClient;
+
     private final Random random = new Random();
 
     @Override
@@ -36,6 +41,13 @@ public class CreateTransactionTask implements ScheduledTaskToRun {
 
         if (sender == null || recipient == null) {
             log.info("未获取到sender与recipient，跳过本次交易数据生成");
+            return;
+        }
+
+        WalletDebugResponse walletDebugResponse = walletDebugClient.generateTx(sender, recipient, amount);
+
+        if (! walletDebugResponse.success()) {
+            log.info("调用Wallet debug API失败, 跳过本次交易数据生成");
             return;
         }
 
